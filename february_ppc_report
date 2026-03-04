@@ -1,0 +1,1522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certinia Paid Media Report - Dynamic</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F3F4F6;
+            color: #1F2937;
+        }
+        /* Chart Container Styling Rules */
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 1024px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        
+        /* Report Page Styling */
+        .report-page {
+            background-color: #FFFFFF;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            border-radius: 0.5rem;
+            min-height: 80vh; 
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Section Dividers */
+        .channel-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 2px dashed #E5E7EB;
+        }
+        
+        /* Table Styling */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+        .data-table th {
+            text-align: left;
+            padding: 0.75rem 1rem;
+            background-color: #F9FAFB;
+            color: #6B7280;
+            font-weight: 600;
+            border-bottom: 2px solid #E5E7EB;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .data-table td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid #E5E7EB;
+            color: #374151;
+        }
+        .data-table tr:hover {
+            background-color: #F9FAFB;
+        }
+
+        /* Status Badges */
+        .badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+        .badge-green { background-color: #D1FAE5; color: #065F46; }
+        .badge-red { background-color: #FEE2E2; color: #991B1B; }
+        .badge-yellow { background-color: #FEF3C7; color: #92400E; }
+        .badge-gray { background-color: #F3F4F6; color: #4B5563; }
+
+        /* Print Styling */
+        @media print {
+            body { background-color: #FFFFFF; }
+            .report-page { box-shadow: none; margin-bottom: 0; padding: 2rem 0; min-height: auto; break-after: page; border-radius: 0; }
+            .no-print { display: none; }
+            header { position: static; box-shadow: none; border-bottom: 2px solid #4F46E5; }
+        }
+    </style>
+</head>
+<body class="antialiased flex flex-col min-h-screen">
+
+    <!-- Header Section -->
+    <header class="bg-indigo-700 text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold tracking-tight">Certinia Paid Media</h1>
+                <p class="text-indigo-200 text-sm">Monthly Performance Report &bull; <span id="report-title-month">February 2026</span></p>
+            </div>
+            <div class="flex items-center space-x-4 no-print">
+                <div class="flex items-center space-x-2 bg-indigo-800 rounded px-3 py-2 border border-indigo-500">
+                    <label for="month-selector" class="text-xs font-semibold text-indigo-200 uppercase tracking-wide">Report Month:</label>
+                    <select id="month-selector" onchange="toggleMonth(this.value)" class="bg-transparent text-white font-bold outline-none cursor-pointer">
+                        <option value="feb" class="text-gray-900">February 2026</option>
+                        <option value="jan" class="text-gray-900">January 2026</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow w-full max-w-5xl mx-auto py-8 px-4 sm:px-6">
+
+        <!-- ========================================= -->
+        <!-- PAGE 1: EXECUTIVE SUMMARY -->
+        <!-- ========================================= -->
+        <article class="report-page" id="page-overview">
+            <!-- FEBRUARY CONTENT -->
+            <div class="content-feb flex flex-col h-full flex-grow">
+                <div class="border-b border-gray-200 pb-4 mb-6 flex justify-between items-end">
+                    <h2 class="text-3xl font-bold text-gray-900 text-indigo-700">1. Executive Summary</h2>
+                    <span class="text-gray-400 text-sm uppercase tracking-wider font-semibold">Global View (Feb)</span>
+                </div>
+                
+                <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                    In February 2026, global campaigns spent <strong>$158,245</strong> (a 17% MoM reduction). 
+                    The story of the month is a drastic shift in pipeline quality: <strong>Google Ads drove 100% of our actual CRM pipeline (40 leads)</strong>, while LinkedIn Ads generated exactly zero CRM leads despite nearly $43k in spend.
+                </p>
+
+                <!-- Global KPI Grid -->
+                <div class="grid grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+                    <div class="bg-white rounded-xl p-5 border border-indigo-100 shadow-sm flex flex-col">
+                        <div class="text-xs font-bold text-indigo-500 uppercase tracking-wide">Total Spend</div>
+                        <div class="mt-1 text-2xl font-bold text-gray-900">$158,245</div>
+                        <div class="mt-2 self-start text-xs font-bold text-gray-600 bg-gray-100 px-2 py-1 rounded">↓ 17.5% MoM</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-5 border border-cyan-100 shadow-sm flex flex-col">
+                        <div class="text-xs font-bold text-cyan-600 uppercase tracking-wide">CRM Leads</div>
+                        <div class="mt-1 text-2xl font-bold text-gray-900">40</div>
+                        <div class="mt-2 self-start text-xs font-bold text-green-700 bg-green-100 px-2 py-1 rounded">↑ 11.1% MoM</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-5 border border-amber-100 shadow-sm flex flex-col">
+                        <div class="text-xs font-bold text-amber-600 uppercase tracking-wide">Cost / CRM Lead</div>
+                        <div class="mt-1 text-2xl font-bold text-gray-900">$3,956</div>
+                        <div class="mt-2 self-start text-xs font-bold text-green-700 bg-green-100 px-2 py-1 rounded">↓ 25.8% MoM</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-5 border border-pink-100 shadow-sm flex flex-col">
+                        <div class="text-xs font-bold text-pink-600 uppercase tracking-wide">Total Clicks</div>
+                        <div class="mt-1 text-2xl font-bold text-gray-900">10,659</div>
+                        <div class="mt-2 self-start text-xs font-bold text-red-600 bg-red-50 px-2 py-1 rounded">↓ 32.8% MoM</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-5 border border-purple-100 shadow-sm flex flex-col">
+                        <div class="text-xs font-bold text-purple-600 uppercase tracking-wide">Impressions</div>
+                        <div class="mt-1 text-2xl font-bold text-gray-900">491k</div>
+                        <div class="mt-2 self-start text-xs font-bold text-red-600 bg-red-50 px-2 py-1 rounded">↓ 45.6% MoM</div>
+                    </div>
+                </div>
+
+                <!-- Channel Scorecards -->
+                <div class="flex-grow flex flex-col justify-center">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Channel Scorecards</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <!-- Google Ads Card -->
+                        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 relative overflow-hidden">
+                            <div class="absolute top-0 left-0 w-1 h-full bg-indigo-500"></div>
+                            <div class="flex justify-between items-center mb-4">
+                                <div class="flex items-center gap-2">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" class="h-6" alt="Google">
+                                    <h4 class="font-bold text-gray-800 text-lg">Google Ads</h4>
+                                </div>
+                                <span class="bg-indigo-50 text-indigo-700 text-xs font-bold px-2 py-1 rounded">73% of Spend</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-y-6 gap-x-4">
+                                <div class="flex flex-col"><p class="text-xs text-gray-500 uppercase font-semibold">Spend</p><p class="text-xl font-bold text-gray-900">$115,291</p><span class="text-[10px] font-bold text-gray-600 bg-gray-100 px-1.5 py-0.5 rounded self-start mt-1">↑ 12.1% MoM</span></div>
+                                <div class="flex flex-col"><p class="text-xs text-gray-500 uppercase font-semibold">Plat. Leads</p><p class="text-xl font-bold text-gray-900">24.88</p><span class="text-[10px] font-bold text-green-700 bg-green-100 px-1.5 py-0.5 rounded self-start mt-1">↑ 21.0% MoM</span></div>
+                                <div class="flex flex-col"><p class="text-xs text-gray-500 uppercase font-semibold">Plat. CPL</p><p class="text-xl font-bold text-gray-900">$4,634</p><span class="text-[10px] font-bold text-green-700 bg-green-100 px-1.5 py-0.5 rounded self-start mt-1">↓ 7.3% MoM</span></div>
+                                <div class="flex flex-col"><p class="text-xs text-gray-500 uppercase font-semibold">CRM Leads</p><p class="text-xl font-bold text-green-600">40</p><span class="text-[10px] font-bold text-green-700 bg-green-100 px-1.5 py-0.5 rounded self-start mt-1">↑ 14.3% MoM</span></div>
+                                <div class="flex flex-col"><p class="text-xs text-gray-500 uppercase font-semibold">Cost/CRM Lead</p><p class="text-xl font-bold text-gray-900">$2,882</p><span class="text-[10px] font-bold text-green-700 bg-green-100 px-1.5 py-0.5 rounded self-start mt-1">↓ 1.9% MoM</span></div>
+                                <div class="flex flex-col"><p class="text-xs text-gray-500 uppercase font-semibold">Clicks</p><p class="text-xl font-bold text-gray-900">7,674</p><span class="text-[10px] font-bold text-gray-600 bg-gray-100 px-1.5 py-0.5 rounded self-start mt-1">↓ 9.3% MoM</span></div>
+                            </div>
+                        </div>
+
+                        <!-- LinkedIn Ads Card -->
+                        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 relative overflow-hidden">
+                            <div class="absolute top-0 left-0 w-1 h-full bg-cyan-500"></div>
+                            <div class="flex justify-between items-center mb-4">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-cyan-600 text-2xl font-bold font-sans">in</span>
+                                    <h4 class="font-bold text-gray-800 text-lg">LinkedIn Ads</h4>
+                                </div>
+                                <span class="bg-cyan-50 text-cyan-700 text-xs font-bold px-2 py-1 rounded">27% of Spend</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-y-6 gap-x-4">
+                                <div class="flex flex-col"><p class="text-xs text-gray-500 uppercase font-semibold">Spend</p><p class="text-xl font-bold text-gray-900">$42,954</p><span class="text-[10px] font-bold text-gray-600 bg-gray-100 px-1.5 py-0.5 rounded self-start mt-1">↓ 51.8% MoM</span></div>
+                                <div class="flex flex-col"><p class="text-xs text-gray-500 uppercase font-semibold">Plat. Leads</p><p class="text-xl font-bold text-gray-900">4.0</p><span class="text-[10px] font-bold text-red-700 bg-red-100 px-1.5 py-0.5 rounded self-start mt-1">↓ 82.6% MoM</span></div>
+                                <div class="flex flex-col"><p class="text-xs text-gray-500 uppercase font-semibold">Plat. CPL</p><p class="text-xl font-bold text-gray-900">$10,738</p><span class="text-[10px] font-bold text-red-700 bg-red-100 px-1.5 py-0.5 rounded self-start mt-1">↑ 177.3% MoM</span></div>
+                                <div class="flex flex-col"><p class="text-xs text-gray-500 uppercase font-semibold">CRM Leads</p><p class="text-xl font-bold text-red-600">0</p><span class="text-[10px] font-bold text-red-700 bg-red-100 px-1.5 py-0.5 rounded self-start mt-1">↓ 100.0% MoM</span></div>
+                                <div class="flex flex-col"><p class="text-xs text-gray-500 uppercase font-semibold">Cost/CRM Lead</p><p class="text-xl font-bold text-gray-500">N/A</p><span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">-</span></div>
+                                <div class="flex flex-col"><p class="text-xs text-gray-500 uppercase font-semibold">Clicks</p><p class="text-xl font-bold text-gray-900">2,985</p><span class="text-[10px] font-bold text-gray-600 bg-gray-100 px-1.5 py-0.5 rounded self-start mt-1">↓ 59.6% MoM</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Wins Box -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+                         <div class="bg-green-50 rounded-lg p-4 border border-green-200">
+                            <h4 class="font-bold text-green-800 text-sm mb-2">🏆 Winning Strategy</h4>
+                            <p class="text-xs text-gray-700">
+                                <strong>Google Ads (Global):</strong> Accounted for all 40 CRM leads at an efficient <strong>$2,882 Cost/CRM Lead</strong>. We will continue to drive this efficiency by further optimizing the campaigns and testing new landing pages.
+                            </p>
+                         </div>
+                         <div class="bg-red-50 rounded-lg p-4 border border-red-200">
+                            <h4 class="font-bold text-red-800 text-sm mb-2">⚠️ Strategy Realignment Needed</h4>
+                            <p class="text-xs text-gray-700">
+                                <strong>LinkedIn Ads Pipeline:</strong> A $42.9k investment yielded <strong>0 CRM Leads</strong>. Our current over-reliance on BOFU In-Mail formats is restricting top-of-funnel acquisition. <strong>Action:</strong> We must pivot to an agile testing framework—mirroring our Google Ads success—by actively diversifying ad formats, refreshing creatives, and expanding our messaging strategy.
+                            </p>
+                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JANUARY CONTENT -->
+            <div class="content-jan hidden flex-col h-full flex-grow">
+                <div class="border-b border-gray-200 pb-4 mb-6 flex justify-between items-end">
+                    <h2 class="text-3xl font-bold text-gray-900 text-indigo-700">1. Executive Summary</h2>
+                    <span class="text-gray-400 text-sm uppercase tracking-wider font-semibold">Global View (Jan)</span>
+                </div>
+                
+                <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                    In January 2026, global campaigns deployed <strong>$191,924</strong> to generate <strong>36 CRM Leads</strong>. 
+                    While LinkedIn Ads indicated strong platform performance (23 leads), this translated to a severe tracking drop-off, with only 1 lead reaching the CRM. Google Ads delivered 35 verifiable CRM leads.
+                </p>
+
+                <!-- Global KPI Grid -->
+                <div class="grid grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
+                    <div class="bg-white rounded-xl p-5 border border-indigo-100 shadow-sm flex flex-col">
+                        <div class="text-xs font-bold text-indigo-500 uppercase tracking-wide">Total Spend</div>
+                        <div class="mt-1 text-2xl font-bold text-gray-900">$191,924</div>
+                        <div class="mt-2 self-start text-xs font-bold text-gray-400 bg-gray-50 px-2 py-1 rounded">Baseline</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-5 border border-cyan-100 shadow-sm flex flex-col">
+                        <div class="text-xs font-bold text-cyan-600 uppercase tracking-wide">CRM Leads</div>
+                        <div class="mt-1 text-2xl font-bold text-gray-900">36</div>
+                        <div class="mt-2 self-start text-xs font-bold text-gray-400 bg-gray-50 px-2 py-1 rounded">Baseline</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-5 border border-amber-100 shadow-sm flex flex-col">
+                        <div class="text-xs font-bold text-amber-600 uppercase tracking-wide">Cost / CRM Lead</div>
+                        <div class="mt-1 text-2xl font-bold text-gray-900">$5,331</div>
+                        <div class="mt-2 self-start text-xs font-bold text-gray-400 bg-gray-50 px-2 py-1 rounded">Baseline</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-5 border border-pink-100 shadow-sm flex flex-col">
+                        <div class="text-xs font-bold text-pink-600 uppercase tracking-wide">Total Clicks</div>
+                        <div class="mt-1 text-2xl font-bold text-gray-900">15,851</div>
+                        <div class="mt-2 self-start text-xs font-bold text-gray-400 bg-gray-50 px-2 py-1 rounded">Baseline</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-5 border border-purple-100 shadow-sm flex flex-col">
+                        <div class="text-xs font-bold text-purple-600 uppercase tracking-wide">Impressions</div>
+                        <div class="mt-1 text-2xl font-bold text-gray-900">902k</div>
+                        <div class="mt-2 self-start text-xs font-bold text-gray-400 bg-gray-50 px-2 py-1 rounded">Baseline</div>
+                    </div>
+                </div>
+
+                <!-- Channel Scorecards -->
+                <div class="flex-grow flex flex-col justify-center">
+                    <h3 class="text-xl font-bold text-gray-800 mb-4">Channel Scorecards</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <!-- Google Ads Card -->
+                        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 relative overflow-hidden">
+                            <div class="absolute top-0 left-0 w-1 h-full bg-indigo-500"></div>
+                            <div class="flex justify-between items-center mb-4">
+                                <div class="flex items-center gap-2">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg" class="h-6" alt="Google">
+                                    <h4 class="font-bold text-gray-800 text-lg">Google Ads</h4>
+                                </div>
+                                <span class="bg-indigo-50 text-indigo-700 text-xs font-bold px-2 py-1 rounded">54% of Spend</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-y-6 gap-x-4">
+                                <div class="flex flex-col"><p class="text-xs text-gray-500 uppercase font-semibold">Spend</p><p class="text-xl font-bold text-gray-900">$102,859</p><span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">Baseline</span></div>
+                                <div class="flex flex-col"><p class="text-xs text-gray-500 uppercase font-semibold">Plat. Leads</p><p class="text-xl font-bold text-gray-900">20.57</p><span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">Baseline</span></div>
+                                <div class="flex flex-col"><p class="text-xs text-gray-500 uppercase font-semibold">Plat. CPL</p><p class="text-xl font-bold text-gray-900">$5,000</p><span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">Baseline</span></div>
+                                <div class="flex flex-col"><p class="text-xs text-gray-500 uppercase font-semibold">CRM Leads</p><p class="text-xl font-bold text-green-600">35</p><span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">Baseline</span></div>
+                                <div class="flex flex-col"><p class="text-xs text-gray-500 uppercase font-semibold">Cost/CRM Lead</p><p class="text-xl font-bold text-gray-900">$2,939</p><span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">Baseline</span></div>
+                                <div class="flex flex-col"><p class="text-xs text-gray-500 uppercase font-semibold">Clicks</p><p class="text-xl font-bold text-gray-900">8,462</p><span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">Baseline</span></div>
+                            </div>
+                        </div>
+
+                        <!-- LinkedIn Ads Card -->
+                        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 relative overflow-hidden">
+                            <div class="absolute top-0 left-0 w-1 h-full bg-cyan-500"></div>
+                            <div class="flex justify-between items-center mb-4">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-cyan-600 text-2xl font-bold font-sans">in</span>
+                                    <h4 class="font-bold text-gray-800 text-lg">LinkedIn Ads</h4>
+                                </div>
+                                <span class="bg-cyan-50 text-cyan-700 text-xs font-bold px-2 py-1 rounded">46% of Spend</span>
+                            </div>
+                            <div class="grid grid-cols-3 gap-y-6 gap-x-4">
+                                <div class="flex flex-col"><p class="text-xs text-gray-500 uppercase font-semibold">Spend</p><p class="text-xl font-bold text-gray-900">$89,065</p><span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">Baseline</span></div>
+                                <div class="flex flex-col"><p class="text-xs text-gray-500 uppercase font-semibold">Plat. Leads</p><p class="text-xl font-bold text-green-600">23.0</p><span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">Baseline</span></div>
+                                <div class="flex flex-col"><p class="text-xs text-gray-500 uppercase font-semibold">Plat. CPL</p><p class="text-xl font-bold text-green-600">$3,872</p><span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">Baseline</span></div>
+                                <div class="flex flex-col"><p class="text-xs text-gray-500 uppercase font-semibold">CRM Leads</p><p class="text-xl font-bold text-red-600">1</p><span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">Baseline</span></div>
+                                <div class="flex flex-col"><p class="text-xs text-gray-500 uppercase font-semibold">Cost/CRM Lead</p><p class="text-xl font-bold text-red-600">$89,065</p><span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">Baseline</span></div>
+                                <div class="flex flex-col"><p class="text-xs text-gray-500 uppercase font-semibold">Clicks</p><p class="text-xl font-bold text-gray-900">7,389</p><span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">Baseline</span></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Wins Box -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+                         <div class="bg-green-50 rounded-lg p-4 border border-green-200">
+                            <h4 class="font-bold text-green-800 text-sm mb-2">🏆 Winning Strategy</h4>
+                            <p class="text-xs text-gray-700">
+                                <strong>NAM Google (Brand Conv):</strong> Delivering CRM leads reliably. The CRM ingestion rate for Google traffic is strong globally.
+                            </p>
+                         </div>
+                         <div class="bg-red-50 rounded-lg p-4 border border-red-200">
+                            <h4 class="font-bold text-red-800 text-sm mb-2">⚠️ Pipeline Disconnect</h4>
+                            <p class="text-xs text-gray-700">
+                                <strong>Global LinkedIn:</strong> $89k was spent to generate 23 native platform leads, but only 1 successfully routed as a CRM lead.
+                            </p>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ========================================= -->
+        <!-- PAGE 2: GLOBAL SPEND BREAKDOWN -->
+        <!-- ========================================= -->
+        <article class="report-page" id="page-global-chart">
+            <!-- FEBRUARY CONTENT -->
+            <div class="content-feb flex flex-col h-full flex-grow">
+                <div class="border-b border-gray-200 pb-4 mb-6 flex justify-between items-end">
+                    <h2 class="text-3xl font-bold text-gray-900 text-indigo-700">2. Global Spend Breakdown</h2>
+                    <span class="text-gray-400 text-sm uppercase tracking-wider font-semibold">Channel Investment (Feb)</span>
+                </div>
+                <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                    A visual representation of budget allocation across regions and platforms. While North America consumed the vast majority of the budget ($120k), LinkedIn spending was completely halted in APAC and significantly reduced in EMEA compared to January.
+                </p>
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex-grow">
+                    <div class="chart-container" style="height: 400px; max-height: 500px;">
+                        <canvas id="globalOverviewChart-feb"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JANUARY CONTENT -->
+            <div class="content-jan hidden flex-col h-full flex-grow">
+                <div class="border-b border-gray-200 pb-4 mb-6 flex justify-between items-end">
+                    <h2 class="text-3xl font-bold text-gray-900 text-indigo-700">2. Global Spend Breakdown</h2>
+                    <span class="text-gray-400 text-sm uppercase tracking-wider font-semibold">Channel Investment (Jan)</span>
+                </div>
+                <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                    A visual representation of budget allocation across regions and platforms. Budget was relatively evenly split between Google and LinkedIn globally, with North America driving the highest regional volume.
+                </p>
+                <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex-grow">
+                    <div class="chart-container" style="height: 400px; max-height: 500px;">
+                        <canvas id="globalOverviewChart-jan"></canvas>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ========================================= -->
+        <!-- PAGE 3: PIPELINE OVERVIEW -->
+        <!-- ========================================= -->
+        <article class="report-page" id="page-pipeline-1">
+            <!-- FEBRUARY CONTENT -->
+            <div class="content-feb flex flex-col h-full flex-grow">
+                <div class="border-b border-gray-200 pb-4 mb-6 flex justify-between items-end">
+                    <h2 class="text-3xl font-bold text-gray-900 text-purple-600">3. Pipeline Overview</h2>
+                    <span class="text-gray-400 text-sm uppercase tracking-wider font-semibold">CRM Lead Quality (Feb)</span>
+                </div>
+
+                <p class="text-gray-600 mb-8">
+                    February data revealed a critical disconnect between the ad platforms and the CRM. While LinkedIn reported generating 4 leads in its dashboard, <strong>none of those translated into CRM pipeline</strong>. Google Ads successfully drove 40 downstream CRM Leads.
+                </p>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8 flex-grow">
+                    <!-- Pipeline Chart -->
+                    <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">Ad Platform Leads vs. True CRM Leads</h3>
+                        <div class="chart-container flex-grow">
+                            <canvas id="pipelineChart-feb"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Pipeline Insights List -->
+                    <div class="lg:col-span-1 space-y-4">
+                        <div class="p-4 bg-green-50 rounded-lg border-l-4 border-green-500">
+                            <h4 class="font-bold text-green-800 text-sm">Google Ads (Strong Quality)</h4>
+                            <p class="text-xs text-gray-600 mt-1">Generated 40 verified CRM Leads, including <strong>11 MQLs</strong> and <strong>2 Opportunities</strong>.</p>
+                        </div>
+                        <div class="p-4 bg-red-50 rounded-lg border-l-4 border-red-500">
+                            <h4 class="font-bold text-red-800 text-sm">LinkedIn Ads (Zero Quality)</h4>
+                            <p class="text-xs text-gray-600 mt-1">0 CRM leads. The $42k spend did not generate actionable pipeline this month.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JANUARY CONTENT -->
+            <div class="content-jan hidden flex-col h-full flex-grow">
+                <div class="border-b border-gray-200 pb-4 mb-6 flex justify-between items-end">
+                    <h2 class="text-3xl font-bold text-gray-900 text-purple-600">3. Pipeline Overview</h2>
+                    <span class="text-gray-400 text-sm uppercase tracking-wider font-semibold">CRM Lead Quality (Jan)</span>
+                </div>
+
+                <p class="text-gray-600 mb-8">
+                    January data showed strong platform performance across both channels, but a heavy skew in downstream quality. While LinkedIn recorded 23 platform leads, only 1 appeared in the CRM. Google Ads delivered 35 true CRM leads.
+                </p>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8 flex-grow">
+                    <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">Ad Platform Leads vs. True CRM Leads</h3>
+                        <div class="chart-container flex-grow">
+                            <canvas id="pipelineChart-jan"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-1 space-y-4">
+                        <div class="p-4 bg-green-50 rounded-lg border-l-4 border-green-500">
+                            <h4 class="font-bold text-green-800 text-sm">Google Ads (Steady Volume)</h4>
+                            <p class="text-xs text-gray-600 mt-1">Platform conversions (20.57) actually underreported the true CRM leads (35), indicating strong back-end value.</p>
+                        </div>
+                        <div class="p-4 bg-yellow-50 rounded-lg border-l-4 border-yellow-500">
+                            <h4 class="font-bold text-yellow-800 text-sm">LinkedIn Ads (Tracking Gap)</h4>
+                            <p class="text-xs text-gray-600 mt-1">Reported 23 leads natively, but only 1 reached the CRM. Requires immediate investigation into form routing.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ========================================= -->
+        <!-- PAGE 4: PIPELINE DEEP DIVE -->
+        <!-- ========================================= -->
+        <article class="report-page" id="page-pipeline-2">
+            <!-- FEBRUARY CONTENT -->
+            <div class="content-feb flex flex-col h-full flex-grow">
+                <div class="border-b border-gray-200 pb-4 mb-6 flex justify-between items-end">
+                    <h2 class="text-3xl font-bold text-gray-900 text-purple-600">4. Pipeline Deep Dive</h2>
+                    <span class="text-gray-400 text-sm uppercase tracking-wider font-semibold">Lead Status Distribution (Feb)</span>
+                </div>
+                
+                <p class="text-gray-600 mb-8">
+                    A detailed breakdown of CRM lead progression stages. The vertical grouping clearly contrasts the success of Google Ads in generating a healthy mix of early and mid-stage pipeline against the complete absence of LinkedIn pipeline.
+                </p>
+
+                <!-- Dual Chart Layout -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8 flex-grow">
+                    <!-- Main Vertical Grouped Bar -->
+                    <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">Pipeline Stage Comparison</h3>
+                        <div class="chart-container flex-grow">
+                            <canvas id="leadStatusChart-feb"></canvas>
+                        </div>
+                    </div>
+                    <!-- Composition Doughnut -->
+                    <div class="lg:col-span-1 bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">Google Ads Lead Mix</h3>
+                        <div class="chart-container flex-grow">
+                            <canvas id="googleMixChart-feb"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JANUARY CONTENT -->
+            <div class="content-jan hidden flex-col h-full flex-grow">
+                <div class="border-b border-gray-200 pb-4 mb-6 flex justify-between items-end">
+                    <h2 class="text-3xl font-bold text-gray-900 text-purple-600">4. Pipeline Deep Dive</h2>
+                    <span class="text-gray-400 text-sm uppercase tracking-wider font-semibold">Lead Status Distribution (Jan)</span>
+                </div>
+                
+                <p class="text-gray-600 mb-8">
+                    A detailed breakdown of CRM lead progression stages for January. Google Ads delivered 35 CRM Leads, pushing 5 all the way to SQL/Opportunity. LinkedIn drove a single MQL.
+                </p>
+
+                <!-- Dual Chart Layout -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8 flex-grow">
+                    <!-- Main Vertical Grouped Bar -->
+                    <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">Pipeline Stage Comparison</h3>
+                        <div class="chart-container flex-grow">
+                            <canvas id="leadStatusChart-jan"></canvas>
+                        </div>
+                    </div>
+                    <!-- Composition Doughnut -->
+                    <div class="lg:col-span-1 bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">Google Ads Lead Mix</h3>
+                        <div class="chart-container flex-grow">
+                            <canvas id="googleMixChart-jan"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ========================================= -->
+        <!-- PAGE 5: NORTH AMERICA -->
+        <!-- ========================================= -->
+        <article class="report-page" id="page-na">
+            <!-- FEBRUARY CONTENT -->
+            <div class="content-feb flex flex-col h-full flex-grow">
+                <div class="border-b border-gray-200 pb-4 mb-6 flex justify-between items-end">
+                    <h2 class="text-3xl font-bold text-gray-900 text-indigo-700">5. North America</h2>
+                    <div class="text-right">
+                        <div class="text-2xl font-bold text-gray-900">$120,655</div>
+                        <div class="text-xs text-gray-500 uppercase tracking-wide">Regional Spend</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-white p-5 border-l-4 border-indigo-500 shadow-sm rounded-r-lg">
+                        <h4 class="font-bold text-indigo-700 text-sm mb-3">Google Ads Performance</h4>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-gray-800">$89,173</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">Spend</div>
+                                <span class="text-[10px] font-bold text-gray-600 bg-gray-100 px-1.5 py-0.5 rounded self-start mt-1">↑ 8.3% MoM</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-indigo-600">31</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">CRM Leads</div>
+                                <span class="text-[10px] font-bold text-green-700 bg-green-100 px-1.5 py-0.5 rounded self-start mt-1">↑ 40.9% MoM</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-green-600">$2,877</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">Cost/CRM Lead</div>
+                                <span class="text-[10px] font-bold text-green-700 bg-green-100 px-1.5 py-0.5 rounded self-start mt-1">↓ 23.1% MoM</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 border-l-4 border-cyan-500 shadow-sm rounded-r-lg">
+                        <h4 class="font-bold text-cyan-700 text-sm mb-3">LinkedIn Ads Performance</h4>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-gray-800">$31,482</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">Spend</div>
+                                <span class="text-[10px] font-bold text-gray-600 bg-gray-100 px-1.5 py-0.5 rounded self-start mt-1">↓ 49.2% MoM</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-red-600">0</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">CRM Leads</div>
+                                <span class="text-[10px] font-bold text-red-700 bg-red-100 px-1.5 py-0.5 rounded self-start mt-1">↓ 100.0% MoM</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-gray-500">N/A</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">Cost/CRM Lead</div>
+                                <span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">Regional Channel Overview</h3>
+                    <p class="text-sm text-gray-600 mb-4">
+                        <strong>Observation:</strong> Google Ads is dominating NA pipeline generation, converting traffic into 31 actual CRM leads. LinkedIn failed to deliver CRM leads this month.
+                    </p>
+                    <div class="overflow-x-auto rounded-lg border border-gray-200">
+                        <table class="data-table">
+                            <thead>
+                                <tr><th>Channel</th><th>Spend</th><th>Clicks</th><th>Platform Leads</th><th>Platform CPL</th><th class="text-indigo-700">CRM Leads</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="font-bold text-gray-700">Google Ads</td><td>$89,173</td><td>4,697</td><td>22.88</td><td>$3,897</td><td class="font-bold text-indigo-600">31</td></tr>
+                                <tr><td class="font-bold text-gray-700">LinkedIn Ads</td><td>$31,482</td><td>2,044</td><td>2.0</td><td>$15,741</td><td class="font-bold text-red-600">0</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="chart-container" style="height: 300px;">
+                    <canvas id="naVolumeChart-feb"></canvas>
+                </div>
+            </div>
+
+            <!-- JANUARY CONTENT -->
+            <div class="content-jan hidden flex-col h-full flex-grow">
+                <div class="border-b border-gray-200 pb-4 mb-6 flex justify-between items-end">
+                    <h2 class="text-3xl font-bold text-gray-900 text-indigo-700">5. North America</h2>
+                    <div class="text-right">
+                        <div class="text-2xl font-bold text-gray-900">$144,315</div>
+                        <div class="text-xs text-gray-500 uppercase tracking-wide">Regional Spend</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-white p-5 border-l-4 border-indigo-500 shadow-sm rounded-r-lg">
+                        <h4 class="font-bold text-indigo-700 text-sm mb-3">Google Ads Performance</h4>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-gray-800">$82,305</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">Spend</div>
+                                <span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">Baseline</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-indigo-600">22</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">CRM Leads</div>
+                                <span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">Baseline</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-green-600">$3,741</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">Cost/CRM Lead</div>
+                                <span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">Baseline</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 border-l-4 border-cyan-500 shadow-sm rounded-r-lg">
+                        <h4 class="font-bold text-cyan-700 text-sm mb-3">LinkedIn Ads Performance</h4>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-gray-800">$62,010</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">Spend</div>
+                                <span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">Baseline</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-red-600">1</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">CRM Leads</div>
+                                <span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">Baseline</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-red-600">$62,009</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">Cost/CRM Lead</div>
+                                <span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">Baseline</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">Regional Channel Overview</h3>
+                    <p class="text-sm text-gray-600 mb-4">
+                        <strong>Observation:</strong> Google Ads drove 22 CRM leads efficiently, while LinkedIn drove massive platform volume (11 leads) that fell out of the pipeline immediately (1 CRM Lead).
+                    </p>
+                    <div class="overflow-x-auto rounded-lg border border-gray-200">
+                        <table class="data-table">
+                            <thead><tr><th>Channel</th><th>Spend</th><th>Clicks</th><th>Platform Leads</th><th>Platform CPL</th><th class="text-indigo-700">CRM Leads</th></tr></thead>
+                            <tbody>
+                                <tr><td class="font-bold text-gray-700">Google Ads</td><td>$82,305</td><td>5,693</td><td>16.57</td><td>$4,967</td><td class="font-bold text-indigo-600">22</td></tr>
+                                <tr><td class="font-bold text-gray-700">LinkedIn Ads</td><td>$62,010</td><td>5,503</td><td>11.0</td><td>$5,637</td><td class="font-bold text-yellow-600">1</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="chart-container" style="height: 300px;">
+                    <canvas id="naVolumeChart-jan"></canvas>
+                </div>
+            </div>
+        </article>
+
+        <!-- ========================================= -->
+        <!-- PAGE 6: EMEA -->
+        <!-- ========================================= -->
+        <article class="report-page" id="page-emea">
+            <!-- FEBRUARY CONTENT -->
+            <div class="content-feb flex flex-col h-full flex-grow">
+                <div class="border-b border-gray-200 pb-4 mb-6 flex justify-between items-end">
+                    <h2 class="text-3xl font-bold text-gray-900 text-green-600">6. EMEA</h2>
+                    <div class="text-right">
+                        <div class="text-2xl font-bold text-gray-900">$33,764</div>
+                        <div class="text-xs text-gray-500 uppercase tracking-wide">Regional Spend</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-white p-5 border-l-4 border-gray-300 shadow-sm rounded-r-lg">
+                        <h4 class="font-bold text-gray-600 text-sm mb-3">Google Ads Performance</h4>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-gray-800">$17,146</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">Spend</div>
+                                <span class="text-[10px] font-bold text-gray-600 bg-gray-100 px-1.5 py-0.5 rounded self-start mt-1">↑ 10.7% MoM</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-green-600">8</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">CRM Leads</div>
+                                <span class="text-[10px] font-bold text-red-700 bg-red-100 px-1.5 py-0.5 rounded self-start mt-1">↓ 38.5% MoM</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-green-600">$2,143</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">Cost/CRM Lead</div>
+                                <span class="text-[10px] font-bold text-red-700 bg-red-100 px-1.5 py-0.5 rounded self-start mt-1">↑ 79.9% MoM</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 border-l-4 border-green-500 shadow-sm rounded-r-lg">
+                        <h4 class="font-bold text-green-700 text-sm mb-3">LinkedIn Ads Performance</h4>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-gray-800">$16,618</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">Spend</div>
+                                <span class="text-[10px] font-bold text-gray-600 bg-gray-100 px-1.5 py-0.5 rounded self-start mt-1">↓ 40.5% MoM</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-red-600">0</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">CRM Leads</div>
+                                <span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">-</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-red-500">N/A</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">Cost/CRM Lead</div>
+                                <span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="mb-8">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">Regional Channel Overview</h3>
+                    <p class="text-sm text-gray-600 mb-4">
+                        EMEA lost its position as the efficiency star this month. LinkedIn CPL quadrupled from $2,150 to $8,309. Google Ads spent $17k and yielded exactly 1 platform lead.
+                    </p>
+                    <div class="overflow-x-auto rounded-lg border border-gray-200">
+                        <table class="data-table">
+                            <thead><tr><th>Channel</th><th>Spend</th><th>Clicks</th><th>Platform Leads</th><th>Platform CPL</th><th class="text-indigo-700">CRM Leads</th></tr></thead>
+                            <tbody>
+                                <tr><td class="font-bold text-gray-700">Google Ads</td><td>$17,146</td><td>2,189</td><td>1.0</td><td>$17,146</td><td class="text-green-600 font-bold">8</td></tr>
+                                <tr><td class="font-bold text-gray-700">LinkedIn Ads</td><td>$16,618</td><td>941</td><td>2.0</td><td>$8,309</td><td class="text-red-600 font-bold">0</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="chart-container" style="height: 300px;">
+                    <canvas id="emeaCPAChart-feb"></canvas>
+                </div>
+            </div>
+
+            <!-- JANUARY CONTENT -->
+            <div class="content-jan hidden flex-col h-full flex-grow">
+                <div class="border-b border-gray-200 pb-4 mb-6 flex justify-between items-end">
+                    <h2 class="text-3xl font-bold text-gray-900 text-green-600">6. EMEA</h2>
+                    <div class="text-right">
+                        <div class="text-2xl font-bold text-gray-900">$43,439</div>
+                        <div class="text-xs text-gray-500 uppercase tracking-wide">Regional Spend</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-white p-5 border-l-4 border-gray-300 shadow-sm rounded-r-lg opacity-75">
+                        <h4 class="font-bold text-gray-600 text-sm mb-3">Google Ads Performance</h4>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-gray-800">$15,487</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">Spend</div>
+                                <span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">Baseline</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-green-600">13</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">CRM Leads</div>
+                                <span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">Baseline</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-green-600">$1,191</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">Cost/CRM Lead</div>
+                                <span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">Baseline</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 border-l-4 border-green-500 shadow-sm rounded-r-lg">
+                        <h4 class="font-bold text-green-700 text-sm mb-3">LinkedIn Ads Performance</h4>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-gray-800">$27,952</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">Spend</div>
+                                <span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">Baseline</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-red-600">0</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">CRM Leads</div>
+                                <span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">Baseline</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-red-500">N/A</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">Cost/CRM Lead</div>
+                                <span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                 <div class="mb-8">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">Regional Channel Overview</h3>
+                    <p class="text-sm text-gray-600 mb-4">
+                        EMEA LinkedIn tracked 13 platform leads, but zero crossed into the CRM. Meanwhile, Google Ads showed 3 platform leads that ballooned into 13 actual CRM leads.
+                    </p>
+                    <div class="overflow-x-auto rounded-lg border border-gray-200">
+                        <table class="data-table">
+                            <thead><tr><th>Channel</th><th>Spend</th><th>Clicks</th><th>Platform Leads</th><th>Platform CPL</th><th class="text-indigo-700">CRM Leads</th></tr></thead>
+                            <tbody>
+                                <tr><td class="font-bold text-gray-700">Google Ads</td><td>$15,487</td><td>2,231</td><td>3.0</td><td>$5,162</td><td class="font-bold text-green-600">13</td></tr>
+                                <tr><td class="font-bold text-gray-700">LinkedIn Ads</td><td>$27,952</td><td>1,817</td><td>13.0</td><td>$2,150</td><td class="font-bold text-red-600">0</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="chart-container" style="height: 300px;">
+                    <canvas id="emeaCPAChart-jan"></canvas>
+                </div>
+            </div>
+        </article>
+
+        <!-- ========================================= -->
+        <!-- PAGE 7: APAC -->
+        <!-- ========================================= -->
+        <article class="report-page" id="page-apac">
+            <!-- FEBRUARY CONTENT -->
+            <div class="content-feb flex flex-col h-full flex-grow">
+                <div class="border-b border-gray-200 pb-4 mb-6 flex justify-between items-end">
+                    <h2 class="text-3xl font-bold text-gray-900 text-amber-600">7. APAC</h2>
+                    <div class="text-right">
+                        <div class="text-2xl font-bold text-gray-900">$8,972</div>
+                        <div class="text-xs text-gray-500 uppercase tracking-wide">Regional Spend</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-white p-5 border-l-4 border-amber-500 shadow-sm rounded-r-lg">
+                        <h4 class="font-bold text-amber-700 text-sm mb-3">Google Ads Performance</h4>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-gray-800">$8,972</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">Spend</div>
+                                <span class="text-[10px] font-bold text-gray-600 bg-gray-100 px-1.5 py-0.5 rounded self-start mt-1">↑ 77.0% MoM</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-indigo-600">1</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">CRM Leads</div>
+                                <span class="text-[10px] font-bold text-green-700 bg-green-100 px-1.5 py-0.5 rounded self-start mt-1">↑ +1 Lead</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-gray-800">$8,972</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">Cost/CRM Lead</div>
+                                <span class="text-[10px] font-bold text-gray-600 bg-gray-100 px-1.5 py-0.5 rounded self-start mt-1">New Baseline</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 border-l-4 border-gray-300 shadow-sm rounded-r-lg">
+                        <h4 class="font-bold text-gray-600 text-sm mb-3">LinkedIn Ads Performance</h4>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-gray-800">$0</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">Spend</div>
+                                <span class="text-[10px] font-bold text-gray-600 bg-gray-100 px-1.5 py-0.5 rounded self-start mt-1">↓ 100.0% MoM</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-gray-500">0</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">CRM Leads</div>
+                                <span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">-</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-gray-500">N/A</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">Cost/CRM Lead</div>
+                                <span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">Channel Overview</h3>
+                    <p class="text-sm text-gray-600 mb-4">
+                        In APAC, LinkedIn spend was pulled entirely. Google Ads generated 1 CRM lead for $8,972.
+                    </p>
+                    <div class="overflow-x-auto rounded-lg border border-gray-200">
+                        <table class="data-table">
+                            <thead><tr><th>Channel</th><th>Spend</th><th>Clicks</th><th>Platform Leads</th><th>Platform CPL</th><th class="text-indigo-700">CRM Leads</th></tr></thead>
+                            <tbody>
+                                <tr><td class="font-medium">Google Ads</td><td>$8,972</td><td>788</td><td>1.0</td><td>$8,972</td><td class="text-indigo-600 font-bold">1</td></tr>
+                                <tr><td class="font-medium">LinkedIn Ads</td><td>$0</td><td>0</td><td>0</td><td>-</td><td class="text-gray-500 font-bold">0</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 flex-grow">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Spend by Channel (APAC)</h3>
+                        <div class="chart-container">
+                            <canvas id="apacVolumeChart-feb"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JANUARY CONTENT -->
+            <div class="content-jan hidden flex-col h-full flex-grow">
+                <div class="border-b border-gray-200 pb-4 mb-6 flex justify-between items-end">
+                    <h2 class="text-3xl font-bold text-gray-900 text-amber-600">7. APAC</h2>
+                    <div class="text-right">
+                        <div class="text-2xl font-bold text-gray-900">$8,340</div>
+                        <div class="text-xs text-gray-500 uppercase tracking-wide">Regional Spend</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-white p-5 border-l-4 border-amber-500 shadow-sm rounded-r-lg">
+                        <h4 class="font-bold text-amber-700 text-sm mb-3">Google Ads Performance</h4>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-gray-800">$5,068</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">Spend</div>
+                                <span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">Baseline</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-gray-500">0</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">CRM Leads</div>
+                                <span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">Baseline</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-gray-500">N/A</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">Cost/CRM Lead</div>
+                                <span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">Baseline</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-5 border-l-4 border-gray-300 shadow-sm rounded-r-lg">
+                        <h4 class="font-bold text-gray-600 text-sm mb-3">LinkedIn Ads Performance</h4>
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-gray-800">$3,272</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">Spend</div>
+                                <span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">Baseline</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-gray-500">0</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">CRM Leads</div>
+                                <span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">Baseline</span>
+                            </div>
+                            <div class="flex flex-col">
+                                <div class="text-xl font-bold text-gray-500">N/A</div>
+                                <div class="text-xs text-gray-500 uppercase font-semibold">Cost/CRM Lead</div>
+                                <span class="text-[10px] font-bold text-gray-400 bg-gray-50 px-1.5 py-0.5 rounded self-start mt-1">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <h3 class="text-lg font-bold text-gray-800 mb-4">Channel & Motion Breakdown</h3>
+                    <div class="overflow-x-auto rounded-lg border border-gray-200">
+                        <table class="data-table">
+                            <thead><tr><th>Channel</th><th>Motion</th><th>Top Campaign</th><th>Spend</th><th>Conversions</th></tr></thead>
+                            <tbody>
+                                <tr><td class="font-medium">Google Ads</td><td class="font-bold text-gray-700">Salesforce Native</td><td>APAC_Awareness_Salesforce Native</td><td>$5,068</td><td>1.0</td></tr>
+                                <tr><td class="font-medium">LinkedIn Ads</td><td class="font-bold text-gray-700">Lead Gen</td><td>(Regional Aggregation)</td><td>$3,272</td><td>1.0</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 flex-grow">
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Volume: Google vs LinkedIn (APAC)</h3>
+                        <div class="chart-container">
+                            <canvas id="apacVolumeChart-jan"></canvas>
+                        </div>
+                    </div>
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Efficiency: CPL Comparison (APAC)</h3>
+                        <div class="chart-container">
+                            <canvas id="apacCPAChart-jan"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ========================================= -->
+        <!-- PAGE 8: RECOMMENDATIONS (PART 1) -->
+        <!-- ========================================= -->
+        <article class="report-page" id="page-recommendations-1">
+            <!-- FEBRUARY CONTENT -->
+            <div class="content-feb flex flex-col h-full flex-grow">
+                <div class="border-b border-gray-200 pb-4 mb-8 flex justify-between items-end">
+                    <h2 class="text-3xl font-bold text-gray-900 text-pink-600">8. Strategic Recommendations <span class="text-xl text-gray-400 font-normal ml-2">(Part 1/3)</span></h2>
+                    <span class="text-gray-400 text-sm uppercase tracking-wider font-semibold">Immediate Actions</span>
+                </div>
+
+                <div class="space-y-6 flex-grow">
+                    <div class="bg-white p-6 rounded-lg shadow-sm border-l-8 border-slate-400">
+                        <div class="flex items-center mb-3">
+                            <span class="bg-slate-100 text-slate-800 text-xs font-bold px-2 py-1 rounded uppercase tracking-wide mr-3">Strategy Review</span>
+                            <h4 class="font-bold text-lg text-gray-900">Evaluate LinkedIn Performance</h4>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-3">
+                            While LinkedIn campaigns successfully drove platform engagement in February, the lack of downstream CRM leads suggests our current messaging may not be fully resonating with active buyers. This presents a great opportunity to refresh our approach.
+                        </p>
+                        <div class="bg-gray-50 p-3 rounded border border-gray-200">
+                            <p class="text-sm font-semibold text-gray-800">👉 <strong>Recommendation:</strong> We suggest shifting our focus toward testing new ad campaigns and creative ideas. By experimenting with different messaging angles and highlighting new offerings, we can better discover what drives high-quality pipeline from this channel.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-sm border-l-8 border-blue-400">
+                        <div class="flex items-center mb-3">
+                            <span class="bg-blue-100 text-blue-800 text-xs font-bold px-2 py-1 rounded uppercase tracking-wide mr-3">Growth Opportunity</span>
+                            <h4 class="font-bold text-lg text-gray-900">Scale EMEA Budget & Keywords</h4>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-3">
+                            With Google Ads tracking now fully aligned, the data confirms EMEA is driving highly efficient downstream pipeline. However, the region's current budget share limits our ability to capture more of this success.
+                        </p>
+                        <div class="bg-gray-50 p-3 rounded border border-gray-200">
+                            <p class="text-sm font-semibold text-gray-800">👉 <strong>Recommendation:</strong> We suggest a calculated increase in EMEA's budget allocation, alongside testing new, high-intent keywords to systematically capture broader regional demand.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-sm border-l-8 border-indigo-400">
+                        <div class="flex items-center mb-3">
+                            <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2 py-1 rounded uppercase tracking-wide mr-3">Advanced Testing</span>
+                            <h4 class="font-bold text-lg text-gray-900">Pilot PMAX & 6Sense Audiences</h4>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-3">
+                            To expand our EMEA footprint without sacrificing lead quality, we have an excellent opportunity to test new campaign types and highly targeted account-based marketing (ABM) lists.
+                        </p>
+                        <div class="bg-gray-50 p-3 rounded border border-gray-200">
+                            <p class="text-sm font-semibold text-gray-800">👉 <strong>Recommendation:</strong> Let's pilot a Performance Max (PMAX) campaign integrating 6Sense Audience Segments. We can pair this with fresh ad creatives and newly optimized landing pages to maximize engagement.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JANUARY CONTENT -->
+            <div class="content-jan hidden flex-col h-full flex-grow">
+                <div class="border-b border-gray-200 pb-4 mb-8 flex justify-between items-end">
+                    <h2 class="text-3xl font-bold text-gray-900 text-pink-600">8. Strategic Recommendations <span class="text-xl text-gray-400 font-normal ml-2">(Part 1/3)</span></h2>
+                    <span class="text-gray-400 text-sm uppercase tracking-wider font-semibold">Immediate Actions</span>
+                </div>
+
+                <div class="space-y-6 flex-grow">
+                    <div class="bg-white p-6 rounded-lg shadow-sm border-l-8 border-slate-400">
+                        <div class="flex items-center mb-3">
+                            <span class="bg-slate-100 text-slate-800 text-xs font-bold px-2 py-1 rounded uppercase tracking-wide mr-3">Data Alignment</span>
+                            <h4 class="font-bold text-lg text-gray-900">Review LinkedIn Tracking Integration</h4>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-3">
+                            Globally, LinkedIn recorded 23 platform leads, but only 1 successfully routed to the CRM. This suggests a potential gap in our data flow or lead qualification process.
+                        </p>
+                        <div class="bg-gray-50 p-3 rounded border border-gray-200">
+                            <p class="text-sm font-semibold text-gray-800">👉 <strong>Recommendation:</strong> We suggest auditing the Marketo/Salesforce sync for LinkedIn Lead Gen forms to ensure all valuable prospect data is captured.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-sm border-l-8 border-amber-400">
+                        <div class="flex items-center mb-3">
+                            <span class="bg-amber-100 text-amber-800 text-xs font-bold px-2 py-1 rounded uppercase tracking-wide mr-3">Budget Reallocation</span>
+                            <h4 class="font-bold text-lg text-gray-900">Reassess "Cloud" Awareness Ads</h4>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-3">
+                            The FM Cloud and PS Cloud awareness campaigns in NA utilized budget without yielding direct conversions, possibly due to broader intent at this funnel stage.
+                        </p>
+                        <div class="bg-gray-50 p-3 rounded border border-gray-200">
+                            <p class="text-sm font-semibold text-gray-800">👉 <strong>Recommendation:</strong> Consider pausing these campaigns for now, preserving the budget to test again later with highly specific, tailored landing pages.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ========================================= -->
+        <!-- PAGE 9: RECOMMENDATIONS (PART 2) -->
+        <!-- ========================================= -->
+        <article class="report-page" id="page-recommendations-2">
+            <!-- FEBRUARY CONTENT -->
+            <div class="content-feb flex flex-col h-full flex-grow">
+                <div class="border-b border-gray-200 pb-4 mb-8 flex justify-between items-end">
+                    <h2 class="text-3xl font-bold text-gray-900 text-pink-600">9. Strategic Recommendations <span class="text-xl text-gray-400 font-normal ml-2">(Part 2/3)</span></h2>
+                    <span class="text-gray-400 text-sm uppercase tracking-wider font-semibold">Optimization & Scaling</span>
+                </div>
+
+                <div class="space-y-6 flex-grow">
+                    <div class="bg-white p-6 rounded-lg shadow-sm border-l-8 border-green-500">
+                        <div class="flex items-center mb-3">
+                            <span class="bg-green-100 text-green-800 text-xs font-bold px-2 py-1 rounded uppercase tracking-wide mr-3">Growth Opportunity</span>
+                            <h4 class="font-bold text-lg text-gray-900">Lean into North America Google Ads</h4>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-3">
+                            NAM Google Ads proved to be a very strong channel this month, improving CPL to $3,897 and driving a healthy volume of pipeline opportunities globally.
+                        </p>
+                        <div class="bg-gray-50 p-3 rounded border border-gray-200">
+                            <p class="text-sm font-semibold text-gray-800">👉 <strong>Recommendation:</strong> We recommend shifting some of the available budget into scaling Google Search in North America to capture more of this high-intent demand.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-sm border-l-8 border-indigo-400">
+                        <div class="flex items-center mb-3">
+                            <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2 py-1 rounded uppercase tracking-wide mr-3">Strategic Shift</span>
+                            <h4 class="font-bold text-lg text-gray-900">Evolve APAC Search Strategy</h4>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-3">
+                            We're seeing early positive signals in APAC with our first CRM lead generated this month. To build on this momentum and improve cost efficiency, we have a great opportunity to refine how we capture regional demand.
+                        </p>
+                        <div class="bg-gray-50 p-3 rounded border border-gray-200">
+                            <p class="text-sm font-semibold text-gray-800">👉 <strong>Recommendation:</strong> We suggest partnering to test a more focused keyword approach. By gradually transitioning towards high-intent, exact-match search terms and experimenting with localized ad copy, we can better engage active buyers and optimize our CPL over time.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JANUARY CONTENT -->
+            <div class="content-jan hidden flex-col h-full flex-grow">
+                <div class="border-b border-gray-200 pb-4 mb-8 flex justify-between items-end">
+                    <h2 class="text-3xl font-bold text-gray-900 text-pink-600">9. Strategic Recommendations <span class="text-xl text-gray-400 font-normal ml-2">(Part 2/3)</span></h2>
+                    <span class="text-gray-400 text-sm uppercase tracking-wider font-semibold">Optimization & Scaling</span>
+                </div>
+
+                <div class="space-y-6 flex-grow">
+                    <div class="bg-white p-6 rounded-lg shadow-sm border-l-8 border-green-500">
+                        <div class="flex items-center mb-3">
+                            <span class="bg-green-100 text-green-800 text-xs font-bold px-2 py-1 rounded uppercase tracking-wide mr-3">Growth Opportunity</span>
+                            <h4 class="font-bold text-lg text-gray-900">Focus on High-Intent Google Search (NA)</h4>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-3">
+                            Google Ads in North America is demonstrating strong alignment with our pipeline goals, generating verifiable CRM leads efficiently.
+                        </p>
+                        <div class="bg-gray-50 p-3 rounded border border-gray-200">
+                            <p class="text-sm font-semibold text-gray-800">👉 <strong>Recommendation:</strong> Consider reallocating budget from broader awareness efforts into the core Brand Conversion campaigns to lean into this success.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-sm border-l-8 border-blue-400">
+                        <div class="flex items-center mb-3">
+                            <span class="bg-blue-100 text-blue-800 text-xs font-bold px-2 py-1 rounded uppercase tracking-wide mr-3">Scale</span>
+                            <h4 class="font-bold text-lg text-gray-900">Nurture EMEA LinkedIn Success</h4>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-3">
+                            With a highly efficient platform CPL of $2,150, EMEA LinkedIn shows excellent potential for scalable engagement.
+                        </p>
+                        <div class="bg-gray-50 p-3 rounded border border-gray-200">
+                            <p class="text-sm font-semibold text-gray-800">👉 <strong>Recommendation:</strong> Once tracking flows are confirmed, a gradual 20% increase in daily budgets could help us capture more of this cost-effective impression share.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        <!-- ========================================= -->
+        <!-- PAGE 10: RECOMMENDATIONS (PART 3) -->
+        <!-- ========================================= -->
+        <article class="report-page" id="page-recommendations-3">
+            <!-- FEBRUARY CONTENT -->
+            <div class="content-feb flex flex-col h-full flex-grow">
+                <div class="border-b border-gray-200 pb-4 mb-8 flex justify-between items-end">
+                    <h2 class="text-3xl font-bold text-gray-900 text-pink-600">10. Strategic Recommendations <span class="text-xl text-gray-400 font-normal ml-2">(Part 3/3)</span></h2>
+                    <span class="text-gray-400 text-sm uppercase tracking-wider font-semibold">Creative & Testing Strategy</span>
+                </div>
+
+                <div class="space-y-6 flex-grow">
+                    <div class="bg-white p-6 rounded-lg shadow-sm border-l-8 border-cyan-400">
+                        <div class="flex items-center mb-3">
+                            <span class="bg-cyan-100 text-cyan-800 text-xs font-bold px-2 py-1 rounded uppercase tracking-wide mr-3">Creative Testing</span>
+                            <h4 class="font-bold text-lg text-gray-900">Diversify LinkedIn Ad Formats</h4>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-3">
+                            Our current strategy leans heavily on In-Mail formats. While useful for later stages, this may be limiting our ability to generate broader awareness.
+                        </p>
+                        <div class="bg-gray-50 p-3 rounded border border-gray-200">
+                            <p class="text-sm font-semibold text-gray-800">👉 <strong>Recommendation:</strong> We suggest dedicating a portion of the LinkedIn budget to test Single Image and Video formats. This can help build more cost-effective website traffic and retargeting pools.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-sm border-l-8 border-purple-400">
+                        <div class="flex items-center mb-3">
+                            <span class="bg-purple-100 text-purple-800 text-xs font-bold px-2 py-1 rounded uppercase tracking-wide mr-3">CRO</span>
+                            <h4 class="font-bold text-lg text-gray-900">Explore Landing Page Testing</h4>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-3">
+                            Since Google Ads is currently our most consistent source of pipeline, optimizing the destination pages can yield compounded benefits.
+                        </p>
+                        <div class="bg-gray-50 p-3 rounded border border-gray-200">
+                            <p class="text-sm font-semibold text-gray-800">👉 <strong>Recommendation:</strong> Introducing simple A/B tests on primary Google landing pages (like headline tweaks or CTA placement) could help improve conversion rates and lower the CPL further.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- JANUARY CONTENT -->
+            <div class="content-jan hidden flex-col h-full flex-grow">
+                <div class="border-b border-gray-200 pb-4 mb-8 flex justify-between items-end">
+                    <h2 class="text-3xl font-bold text-gray-900 text-pink-600">10. Strategic Recommendations <span class="text-xl text-gray-400 font-normal ml-2">(Part 3/3)</span></h2>
+                    <span class="text-gray-400 text-sm uppercase tracking-wider font-semibold">Creative & Testing Strategy</span>
+                </div>
+
+                <div class="space-y-6 flex-grow">
+                    <div class="bg-white p-6 rounded-lg shadow-sm border-l-8 border-indigo-400">
+                        <div class="flex items-center mb-3">
+                            <span class="bg-indigo-100 text-indigo-800 text-xs font-bold px-2 py-1 rounded uppercase tracking-wide mr-3">Campaign Alignment</span>
+                            <h4 class="font-bold text-lg text-gray-900">Streamline NA Brand Targeting</h4>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-3">
+                            We're observing some overlap where the "Awareness" Brand campaign might be catching traffic better suited for the "Conversion" campaign.
+                        </p>
+                        <div class="bg-gray-50 p-3 rounded border border-gray-200">
+                            <p class="text-sm font-semibold text-gray-800">👉 <strong>Recommendation:</strong> Consolidating these budgets and adding "Salesforce" as a negative keyword can help filter out existing customers and focus strictly on net-new prospects.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-lg shadow-sm border-l-8 border-cyan-400">
+                        <div class="flex items-center mb-3">
+                            <span class="bg-cyan-100 text-cyan-800 text-xs font-bold px-2 py-1 rounded uppercase tracking-wide mr-3">Testing</span>
+                            <h4 class="font-bold text-lg text-gray-900">Cross-Pollinate Successful Creative</h4>
+                        </div>
+                        <p class="text-gray-600 text-sm mb-3">
+                            The Gartner Report asset is currently performing very well, driving healthy top-of-funnel engagement in core regions.
+                        </p>
+                        <div class="bg-gray-50 p-3 rounded border border-gray-200">
+                            <p class="text-sm font-semibold text-gray-800">👉 <strong>Recommendation:</strong> We recommend introducing this proven creative to the APAC market to see if it resonates similarly and helps build early-stage awareness there.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+    </main>
+
+    <footer class="bg-gray-800 text-gray-300 py-8 mt-auto no-print">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="mb-2">Certinia Paid Media Report &copy; 2026</p>
+            <p class="text-xs text-gray-500">Includes data up to <span id="footer-month">February</span> 2026.</p>
+        </div>
+    </footer>
+
+    <!-- Chart Configuration Script -->
+    <script>
+        // --- Toggle Logic ---
+        function toggleMonth(month) {
+            // Update Headers
+            document.getElementById('report-title-month').innerText = month === 'feb' ? 'February 2026' : 'January 2026';
+            document.getElementById('footer-month').innerText = month === 'feb' ? 'February' : 'January';
+
+            // Toggle Content Visibility
+            const febElements = document.querySelectorAll('.content-feb');
+            const janElements = document.querySelectorAll('.content-jan');
+            
+            if(month === 'feb') {
+                febElements.forEach(el => { el.classList.remove('hidden'); el.classList.add('flex'); });
+                janElements.forEach(el => { el.classList.add('hidden'); el.classList.remove('flex'); });
+            } else {
+                janElements.forEach(el => { el.classList.remove('hidden'); el.classList.add('flex'); });
+                febElements.forEach(el => { el.classList.add('hidden'); el.classList.remove('flex'); });
+            }
+
+            // Force charts to resize so they render correctly when shown
+            for (let id in Chart.instances) {
+                Chart.instances[id].resize();
+            }
+        }
+
+        // --- Common Chart Options ---
+        const commonOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { position: 'bottom', labels: { font: { family: "'Inter', sans-serif", size: 12 }, padding: 15 } },
+                tooltip: {
+                    backgroundColor: 'rgba(31, 41, 55, 0.9)', padding: 10, cornerRadius: 6,
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            let label = tooltipItems[0].chart.data.labels[tooltipItems[0].dataIndex];
+                            return Array.isArray(label) ? label.join(' ') : label;
+                        }
+                    }
+                }
+            }
+        };
+
+        const colors = {
+            google: '#4F46E5', // Indigo
+            linkedin: '#06B6D4', // Cyan
+            crm: '#10B981', // Green
+            platform: '#9CA3AF', // Grey
+            mql: '#4F46E5', // Indigo
+            bdr: '#06B6D4', // Cyan
+            opp: '#10B981', // Green
+            disq: '#DC2626', // Red
+            other: '#9CA3AF' // Grey
+        };
+
+        // ============================================
+        // FEBRUARY CHARTS
+        // ============================================
+        new Chart(document.getElementById('globalOverviewChart-feb').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['North America', 'EMEA', 'APAC'],
+                datasets: [
+                    { label: 'Google Spend ($)', data: [89173, 17146, 8972], backgroundColor: colors.google, stack: 'Spend' },
+                    { label: 'LinkedIn Spend ($)', data: [31482, 16618, 0], backgroundColor: colors.linkedin, stack: 'Spend' }
+                ]
+            },
+            options: { ...commonOptions, scales: { y: { beginAtZero: true, title: { display: true, text: 'Spend ($)' } }, x: { grid: { display: false } } } }
+        });
+
+        new Chart(document.getElementById('pipelineChart-feb').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['Google Ads', 'LinkedIn Ads'],
+                datasets: [
+                    { label: 'Platform Leads (Dashboard)', data: [24.88, 4], backgroundColor: colors.platform },
+                    { label: 'True CRM Leads', data: [40, 0], backgroundColor: colors.crm } 
+                ]
+            },
+            options: { ...commonOptions, scales: { y: { beginAtZero: true, title: {display: true, text: 'Number of Leads'} }, x: { grid: { display: false } } } }
+        });
+
+        // Vertical Grouped Bar (Replaced Stacked)
+        new Chart(document.getElementById('leadStatusChart-feb').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['MQL', 'BDR Accepted', 'Opportunity', 'Disqualified', 'Other'],
+                datasets: [
+                    { label: 'Google Ads', data: [11, 8, 2, 8, 11], backgroundColor: colors.google, borderRadius: 4 },
+                    { label: 'LinkedIn Ads', data: [0, 0, 0, 0, 0], backgroundColor: colors.linkedin, borderRadius: 4 }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: {size: 10} } } },
+                scales: {
+                    x: { grid: { display: false } },
+                    y: { beginAtZero: true, title: {display: true, text: 'Number of Leads'} }
+                }
+            }
+        });
+
+        // Google Ads Lead Mix (Doughnut)
+        new Chart(document.getElementById('googleMixChart-feb').getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: ['MQL', 'BDR Accepted', 'Opportunity', 'Disqualified', 'Other'],
+                datasets: [{
+                    data: [11, 8, 2, 8, 11],
+                    backgroundColor: [colors.mql, colors.bdr, colors.opp, colors.disq, colors.other],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '65%',
+                plugins: {
+                    legend: { position: 'bottom', labels: { boxWidth: 10, font: {size: 10} } }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('naVolumeChart-feb').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['Google Ads', 'LinkedIn Ads'],
+                datasets: [
+                    { label: 'Spend ($)', data: [89173, 31482], backgroundColor: '#818CF8', yAxisID: 'y' },
+                    { label: 'CRM Leads', data: [31, 0], backgroundColor: colors.crm, yAxisID: 'y1' }
+                ]
+            },
+            options: {
+                ...commonOptions,
+                scales: {
+                    y: { type: 'linear', display: true, position: 'left', title: {display: true, text: 'Spend'} },
+                    y1: { type: 'linear', display: true, position: 'right', title: {display: true, text: 'CRM Leads'}, grid: {drawOnChartArea: false} },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('emeaCPAChart-feb').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['Google Ads', 'LinkedIn Ads'],
+                datasets: [{ label: 'Platform CPL ($)', data: [17146, 8309], backgroundColor: [colors.google, colors.linkedin], borderRadius: 4 }]
+            },
+            options: {
+                ...commonOptions,
+                plugins: { ...commonOptions.plugins, legend: { display: false }, title: {display: true, text: 'Cost Per Platform Lead (EMEA)'} },
+                scales: { y: { beginAtZero: true, title: { display: true, text: 'Cost ($)' } }, x: { grid: { display: false } } }
+            }
+        });
+
+        new Chart(document.getElementById('apacVolumeChart-feb').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['Google Ads', 'LinkedIn Ads'],
+                datasets: [{ label: 'Spend ($)', data: [8972, 0], backgroundColor: [colors.google, colors.linkedin] }]
+            },
+            options: { ...commonOptions, plugins: { ...commonOptions.plugins, legend: {display: false} }, scales: { y: { beginAtZero: true } } }
+        });
+
+        // ============================================
+        // JANUARY CHARTS
+        // ============================================
+        new Chart(document.getElementById('globalOverviewChart-jan').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['North America', 'EMEA', 'APAC'],
+                datasets: [
+                    { label: 'Google Spend', data: [82305, 15487, 5068], backgroundColor: colors.google, stack: 'Spend' },
+                    { label: 'LinkedIn Spend', data: [62010, 27952, 3272], backgroundColor: colors.linkedin, stack: 'Spend' }
+                ]
+            },
+            options: { ...commonOptions, scales: { y: { beginAtZero: true, title: { display: true, text: 'Spend ($)' } }, x: { grid: { display: false } } } }
+        });
+
+        new Chart(document.getElementById('pipelineChart-jan').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['Google Ads', 'LinkedIn Ads'],
+                datasets: [
+                    { label: 'Platform Leads (Dashboard)', data: [20.6, 23], backgroundColor: colors.platform },
+                    { label: 'True CRM Leads', data: [35, 1], backgroundColor: colors.crm } 
+                ]
+            },
+            options: { ...commonOptions, scales: { y: { beginAtZero: true, title: {display: true, text: 'Number of Leads'} }, x: { grid: { display: false } } } }
+        });
+
+        // Vertical Grouped Bar (Replaced Stacked)
+        new Chart(document.getElementById('leadStatusChart-jan').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['MQL', 'BDR Accepted', 'Opportunity', 'Disqualified', 'Other'],
+                datasets: [
+                    { label: 'Google Ads', data: [5, 9, 1, 7, 13], backgroundColor: colors.google, borderRadius: 4 },
+                    { label: 'LinkedIn Ads', data: [1, 0, 0, 0, 0], backgroundColor: colors.linkedin, borderRadius: 4 }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: {size: 10} } } },
+                scales: {
+                    x: { grid: { display: false } },
+                    y: { beginAtZero: true, title: {display: true, text: 'Number of Leads'} }
+                }
+            }
+        });
+
+        // Google Ads Lead Mix (Doughnut)
+        new Chart(document.getElementById('googleMixChart-jan').getContext('2d'), {
+            type: 'doughnut',
+            data: {
+                labels: ['MQL', 'BDR Accepted', 'Opportunity', 'Disqualified', 'Other'],
+                datasets: [{
+                    data: [5, 9, 1, 7, 13],
+                    backgroundColor: [colors.mql, colors.bdr, colors.opp, colors.disq, colors.other],
+                    borderWidth: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '65%',
+                plugins: {
+                    legend: { position: 'bottom', labels: { boxWidth: 10, font: {size: 10} } }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('naVolumeChart-jan').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['Google Ads', 'LinkedIn Ads'],
+                datasets: [
+                    { label: 'Spend ($)', data: [82305, 62010], backgroundColor: '#818CF8', yAxisID: 'y' },
+                    { label: 'CRM Leads', data: [22, 1], backgroundColor: colors.crm, yAxisID: 'y1' }
+                ]
+            },
+            options: {
+                ...commonOptions,
+                scales: {
+                    y: { type: 'linear', display: true, position: 'left', title: {display: true, text: 'Spend'} },
+                    y1: { type: 'linear', display: true, position: 'right', title: {display: true, text: 'CRM Leads'}, grid: {drawOnChartArea: false} },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+        new Chart(document.getElementById('emeaCPAChart-jan').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['Google Ads', 'LinkedIn Ads'],
+                datasets: [{ label: 'Platform CPL ($)', data: [5162, 2150], backgroundColor: [colors.google, colors.linkedin], borderRadius: 4 }]
+            },
+            options: {
+                ...commonOptions,
+                plugins: { ...commonOptions.plugins, legend: { display: false }, title: {display: true, text: 'Cost Per Platform Lead (EMEA)'} },
+                scales: { y: { beginAtZero: true, title: { display: true, text: 'Cost ($)' } }, x: { grid: { display: false } } }
+            }
+        });
+
+        new Chart(document.getElementById('apacVolumeChart-jan').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: ['Google Ads', 'LinkedIn Ads'],
+                datasets: [
+                    { label: 'Spend ($)', data: [5068, 3272], backgroundColor: '#FCD34D', yAxisID: 'y' },
+                    { label: 'CRM Leads', data: [0, 0], backgroundColor: colors.crm, yAxisID: 'y1' }
+                ]
+            },
+            options: {
+                ...commonOptions,
+                scales: {
+                    y: { type: 'linear', display: true, position: 'left', title: {display: true, text: 'Spend'} },
+                    y1: { type: 'linear', display: true, position: 'right', title: {display: true, text: 'CRM Leads'}, grid: {drawOnChartArea: false} },
+                    x: { grid: { display: false } }
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
