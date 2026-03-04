@@ -1,0 +1,84 @@
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #F3F4F6;
+    color: #1F2937;
+}
+/* Chart Container Styling Rules */
+.chart-container {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    height: 300px;
+    max-height: 400px;
+}
+@media (min-width: 1024px) {
+    .chart-container {
+        height: 350px;
+    }
+}
+
+/* Report Page Styling */
+.report-page {
+    background-color: #FFFFFF;
+    padding: 3rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    border-radius: 0.5rem;
+    min-height: 80vh; 
+    display: flex;
+    flex-direction: column;
+}
+
+/* Section Dividers */
+.channel-section {
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 2px dashed #E5E7EB;
+}
+
+/* Table Styling */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+.data-table th {
+    text-align: left;
+    padding: 0.75rem 1rem;
+    background-color: #F9FAFB;
+    color: #6B7280;
+    font-weight: 600;
+    border-bottom: 2px solid #E5E7EB;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+.data-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #E5E7EB;
+    color: #374151;
+}
+.data-table tr:hover {
+    background-color: #F9FAFB;
+}
+
+/* Status Badges */
+.badge {
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+.badge-green { background-color: #D1FAE5; color: #065F46; }
+.badge-red { background-color: #FEE2E2; color: #991B1B; }
+.badge-yellow { background-color: #FEF3C7; color: #92400E; }
+.badge-gray { background-color: #F3F4F6; color: #4B5563; }
+
+/* Print Styling */
+@media print {
+    body { background-color: #FFFFFF; }
+    .report-page { box-shadow: none; margin-bottom: 0; padding: 2rem 0; min-height: auto; break-after: page; border-radius: 0; }
+    .no-print { display: none; }
+    header { position: static; box-shadow: none; border-bottom: 2px solid #4F46E5; }
+}
